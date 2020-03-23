@@ -30,7 +30,7 @@ Response should look like: { "name": "YYYYyyyy", "quantity": 2}
 ``` bash
 curl --url http://localhost:8080/orders \
      -H "Content-Type: application/json" \
-     -d '{"userName": "{сreatedUserName}", "product": "{сreatedProductName}"}'
+     -d '{"userName": "XXXXxxxx", "product": "YYYYyyyy"}'
 ```
 * Check is `notification` service have handled POST request
 ``` bash
