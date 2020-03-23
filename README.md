@@ -15,23 +15,29 @@
 * Add POST HTTP call in `OrdersController.createNewOrder()` to `notification` service using `FeignClient`
 
 ## Order of manual testing:
-1. Run all services (eureka-server is first)
+* Run all services (eureka-server is first)
 
-2. Create user: curl -X POST http://localhost:8080/users
-
+* Create user 
+``` bash
+curl -X POST http://localhost:8080/users
+```
 Response should look like: {"name": "XXXXxxxx"}
 
-3. Create product: curl -X POST http://localhost:8080/products
-
+* Create product 
+``` bash
+curl -X POST http://localhost:8080/products
+```
 Response should look like: { "name": "YYYYyyyy", "quantity": 2}
 
-4. Create order: 
-     curl --url http://localhost:8080/orders \
-          -H "Content-Type: application/json" \
-          -d '{"userName": "XXXXxxxx", "product": "YYYYyyyy"}'
-          
-5. Check is notification service have handled POST request:
-     curl -X GET http://localhost:8080/notifications
-     
-     Response should look like: [{"user":"XXXXxxxx","notifyBy":"EMAIL"}]%  
+* Create order 
+``` bash
+curl --url http://localhost:8080/orders \
+     -H "Content-Type: application/json" \
+     -d '{"userName": "{сreatedUserName}", "product": "{сreatedProductName}"}'
+```
 
+* Check is `notification` service have handled POST request
+``` bash
+curl -X GET http://localhost:8080/notifications
+```
+ Response should look like: [{"user":"XXXXxxxx","notifyBy":"EMAIL"}]%  
