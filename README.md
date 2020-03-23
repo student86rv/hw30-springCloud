@@ -1,49 +1,34 @@
-# Spring Cloud overview
+# Spring Cloud homework
 
-## Product service
-`cd products` then run `mvn spring-boot:run`
+## Add the project to your repository with changes written below.
 
-### Use Product service:
-``` bash
-curl -X POST http://localhost:8181/
-```
-``` bash
-curl -X GET http://localhost:8181/{сreatedProductName}
-```
-Get all products:
-``` bash
-curl -X GET http://localhost:8181/
-```
-Decrease quantity of product by 1:
-``` bash
-curl -X PUT http://localhost:8181/{сreatedProductName}
-```
+### Notification server
+* Run service at `localhost:8484`
+* Notification service should be registered in Eureka Server with `notifications` service id
+* Add route to API Gateway. `localhost:8080/notifications/**` should be routed to `notfication` service running at port `8484` 
+* Add Spring MVC annotations and some logic to `NotificationController.class` to handle GET and POST request.
+    * POST - adds Notification for given user to list  
+    * GET - returns collection of notifications  
 
-## User service
-`cd users` then run `mvn spring-boot:run`
+### Order service
+* Rewrite `OrdersController.createNewOrder()` to use `FeignClient's` instead of `RestTeamplate`.
+* Add POST HTTP call in `OrdersController.createNewOrder()` to `notification` service using `FeignClient`
 
-### Use User service:
-``` bash
-curl -X POST http://localhost:8383/
-```
-``` bash
-curl -X GET http://localhost:8383/{сreatedUserName}
-```
-Get user's products:
-``` bash
-curl -X GET GET http://localhost:8383/{сreatedUserName}/products
-```
+## Order of manual testing:
+1. Run all services (eureka-server is first)
 
-## Order service
-`cd orders` then run `mvn spring-boot:run`
+2. Create user: curl -X POST http://localhost:8080/users 
+Response should look like: {"name": "XXXXxxxx"}
 
-### Use User service:
-``` bash
-curl --url http://localhost:8282/ \
-     -H "Content-Type: application/json" \
-     -d '{"userName": "{сreatedUserName}", "product": "{сreatedProductName}"}'
-```
-Get user's products:
-``` bash
-curl -X GET http://localhost:8282/users/{сreatedUserName}
-```
+3. Create product: curl -X POST http://localhost:8080/products
+Response should look like: { "name": "YYYYyyyy", "quantity": 2}
+
+4. Create order: 
+     curl --url http://localhost:8080/orders \
+          -H "Content-Type: application/json" \
+          -d '{"userName": "XXXXxxxx", "product": "YYYYyyyy"}'
+          
+5. Check is notification service have handled POST request
+     curl -X GET http://localhost:8080/notifications
+     Response should look like: [{"user":"XXXXxxxx","notifyBy":"EMAIL"}]%  
+
