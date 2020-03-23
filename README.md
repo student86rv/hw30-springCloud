@@ -17,10 +17,12 @@
 ## Order of manual testing:
 1. Run all services (eureka-server is first)
 
-2. Create user: curl -X POST http://localhost:8080/users 
+2. Create user: curl -X POST http://localhost:8080/users
+
 Response should look like: {"name": "XXXXxxxx"}
 
 3. Create product: curl -X POST http://localhost:8080/products
+
 Response should look like: { "name": "YYYYyyyy", "quantity": 2}
 
 4. Create order: 
@@ -28,7 +30,8 @@ Response should look like: { "name": "YYYYyyyy", "quantity": 2}
           -H "Content-Type: application/json" \
           -d '{"userName": "XXXXxxxx", "product": "YYYYyyyy"}'
           
-5. Check is notification service have handled POST request
+5. Check is notification service have handled POST request:
      curl -X GET http://localhost:8080/notifications
+     
      Response should look like: [{"user":"XXXXxxxx","notifyBy":"EMAIL"}]%  
 
